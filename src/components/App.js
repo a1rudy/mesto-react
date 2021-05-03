@@ -4,7 +4,7 @@ import Header from './Header';
 import Main from './Main';
 import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
-import PopupImage from './PopupImage';
+import ImagePopup from './ImagePopup';
 
 
 function App() {
@@ -45,7 +45,7 @@ function App() {
         <Main onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={item => handleCardClick(item)}/>
         <Footer />
 
-        <PopupImage card={selectedCard} onClose={e => closeAllPopups(e, setSelectedCard)} />
+        <ImagePopup card={selectedCard} onClose={e => closeAllPopups(e, setSelectedCard)} />
 
         <PopupWithForm  isOpen={isEditAvatarPopupOpen ? 'popup_opened' : ''} title={'Обновить аватар'} name={'avatar'} onClose={e => closeAllPopups(e, setEditAvatarPopupOpen)}>
           <div className="popup__form-wrap popup__form-wrap_type_avatar">

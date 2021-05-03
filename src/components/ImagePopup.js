@@ -1,4 +1,4 @@
-function PopupImage({card, onClose, onCloseEsc}) {
+function ImagePopup({card, onClose}) {
   return (
 
     <section className={`popup popup_style_opacity popup_type_mesto ${card ? 'popup_opened' : ''}`} onClick={onClose}>
@@ -13,4 +13,4 @@ function PopupImage({card, onClose, onCloseEsc}) {
   );
 }
 
-export default PopupImage;
+export default ImagePopup;
