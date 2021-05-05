@@ -11,28 +11,35 @@ function App() {
   const [isEditAvatarPopupOpen, setEditAvatarPopupOpen] = React.useState(false);
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setAddPlacePopupOpen] = React.useState(false);
-  const [selectedCard, setSelectedCard] = React.useState(false);
+  const [selectedCard, setSelectedCard] = React.useState({});
   
   function handleEditAvatarClick() {
-    setEditAvatarPopupOpen(!isEditAvatarPopupOpen);
+    setEditAvatarPopupOpen(true);
   }
 
   function handleEditProfileClick() {
-    setEditProfilePopupOpen(!isEditProfilePopupOpen);
+    setEditProfilePopupOpen(true);
   }
 
   function handleAddPlaceClick() {
-    setAddPlacePopupOpen(!isAddPlacePopupOpen);
+    setAddPlacePopupOpen(true);
   }
 
   function handleCardClick(item) {
     setSelectedCard(item);
   }
-  console.log(selectedCard)
-  
-  function closeAllPopups(e, setter) {
-    if (e.target === e.currentTarget) {
-      setter(false);
+
+  function closeAllPopups() {
+    setEditAvatarPopupOpen(false);
+    setEditProfilePopupOpen(false);
+    setAddPlacePopupOpen(false);
+    setSelectedCard({});
+  }
+
+  function handleOverlayClose(evt) {
+    const evtTarget = evt.target;
+    if (evtTarget.classList.contains('popup')) {
+      closeAllPopups();
     }
   }
 
@@ -42,32 +49,32 @@ function App() {
         
         <Header />
 
-        <Main onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={item => handleCardClick(item)}/>
+        <Main onEditAvatar={handleEditAvatarClick} onEditProfile={handleEditProfileClick} onAddPlace={handleAddPlaceClick} onCardClick={handleCardClick}/>
         <Footer />
 
-        <ImagePopup card={selectedCard} onClose={e => closeAllPopups(e, setSelectedCard)} />
+        <ImagePopup card={selectedCard} handleClickClose={handleOverlayClose} onClose={closeAllPopups} />
 
-        <PopupWithForm  isOpen={isEditAvatarPopupOpen ? 'popup_opened' : ''} title={'Обновить аватар'} name={'avatar'} onClose={e => closeAllPopups(e, setEditAvatarPopupOpen)}>
+        <PopupWithForm  isOpen={isEditAvatarPopupOpen} title={'Обновить аватар'} name={'avatar'} buttonText={'Сохранить'} handleClickClose={handleOverlayClose} onClose={closeAllPopups}>
           <div className="popup__form-wrap popup__form-wrap_type_avatar">
             <input className="popup__input" id="input-link" type="url" placeholder="Ссылка на аватарку" name="avatar" required />
             <span className="popup__input-error input-link-error"></span>
           </div>
         </PopupWithForm>
 
-        <PopupWithForm isOpen={isEditProfilePopupOpen ? 'popup_opened' : ''} title={'Редактировать профиль'} name={'profile'} onClose={e => closeAllPopups(e, setEditProfilePopupOpen)}>
+        <PopupWithForm isOpen={isEditProfilePopupOpen} title={'Редактировать профиль'} name={'profile'} buttonText={'Сохранить'} handleClickClose={handleOverlayClose} onClose={closeAllPopups}>
           <div className="popup__form-wrap">
-            <input className="popup__input popup__input_type_top" id="name-input" type="text" placeholder="Имя" name="name" minlength="2" maxlength="40" required />
+            <input className="popup__input popup__input_type_top" id="name-input" type="text" placeholder="Имя" name="name" minLength="2" maxLength="40" required />
             <span className="popup__input-error name-input-error"></span>
           </div>
           <div className="popup__form-wrap">
-            <input className="popup__input popup__input_type_bottom" id="about-input" type="text" placeholder="О себе" name="about" minlength="2" maxlength="200" required />
+            <input className="popup__input popup__input_type_bottom" id="about-input" type="text" placeholder="О себе" name="about" minLength="2" maxLength="200" required />
             <span className="popup__input-error about-input-error"></span>
           </div>
         </PopupWithForm>
 
-        <PopupWithForm isOpen={isAddPlacePopupOpen ? 'popup_opened' : ''} title={'Новое место'} name={'mesto'} onClose={e => closeAllPopups(e, setAddPlacePopupOpen)}>
+        <PopupWithForm isOpen={isAddPlacePopupOpen} title={'Новое место'} name={'mesto'} buttonText={'Создать'} handleClickClose={handleOverlayClose} onClose={closeAllPopups}>
           <div className="popup__form-wrap">
-            <input className="popup__input popup__input_type_top" id="title-input" type="text" placeholder="Название" name="name" minlength="2" maxlength="30" required />
+            <input className="popup__input popup__input_type_top" id="title-input" type="text" placeholder="Название" name="name" minLength="2" maxLength="30" required />
             <span className="popup__input-error title-input-error"></span>
           </div>
           <div className="popup__form-wrap">
@@ -75,6 +82,8 @@ function App() {
             <span className="popup__input-error link-input-error"></span>
           </div>
         </PopupWithForm>
+
+        <PopupWithForm title={'Вы уверены?'} name="delete" buttonText={'Да'}/>
 
       </div>
 

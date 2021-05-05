@@ -1,15 +1,16 @@
-const handleResponse = (res) => {
-  if (res.ok) {
-    return res.json();
-  }
-  return Promise.reject(`Error: ${res.status}`);
-}
-
-export default class Api {
+class Api {
   constructor({address, token}) {
     this._address = address;
     this._token = token;
 }
+
+  _handleResponse(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    return Promise.reject(`Error: ${res.status}`);
+  }
+
   // Загрузка информации о пользователе с сервера
   setUserProfile() {
     return fetch(`${this._address}/users/me`, {
@@ -18,7 +19,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then(handleResponse)
+    .then(this._handleResponse)
   }
   // Редактирование профиля
   getUserProfile(data) {
@@ -33,7 +34,7 @@ export default class Api {
         about: data.about
       })
     })
-    .then(handleResponse)
+    .then(this._handleResponse)
   }
   // Обновление аватара пользователя
   editUserAvatar(data) {
@@ -47,7 +48,7 @@ export default class Api {
         avatar: data.avatar,
       })
     })
-    .then(handleResponse)
+    .then(this._handleResponse)
   }
   // Загрузка карточек с сервера
   getInitialCards() {
@@ -57,7 +58,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then(handleResponse)
+    .then(this._handleResponse)
   }
   // Добавление новой карточки
   addNewCard(data) {
@@ -72,7 +73,7 @@ export default class Api {
         link: data.link
       })
     })
-    .then(handleResponse)
+    .then(this._handleResponse)
   }
   // Удаление карточки
   removeCard(id) {
@@ -82,7 +83,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then(handleResponse)
+    .then(this._handleResponse)
   }
   // Постановка лайка
   addLikeCard(id) {
@@ -92,7 +93,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then(handleResponse)
+    .then(this._handleResponse)
   }
   // Снятие лайка
   removeLikeCard(id) {
@@ -102,7 +103,7 @@ export default class Api {
         authorization: this._token
       }
     })
-    .then(handleResponse)
+    .then(this._handleResponse)
   }
 }
 
