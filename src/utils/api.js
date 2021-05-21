@@ -12,7 +12,7 @@ class Api {
   }
 
   // Загрузка информации о пользователе с сервера
-  setUserProfile() {
+  getUserProfile() {
     return fetch(`${this._address}/users/me`, {
       method: 'GET',
       headers: {
@@ -22,7 +22,7 @@ class Api {
     .then(this._handleResponse)
   }
   // Редактирование профиля
-  getUserProfile(data) {
+  setUserProfile(data) {
     return fetch(`${this._address}/users/me`, {
       method: 'PATCH',
       headers: {
@@ -37,7 +37,7 @@ class Api {
     .then(this._handleResponse)
   }
   // Обновление аватара пользователя
-  editUserAvatar(data) {
+  setUserAvatar(data) {
     return fetch(`${this._address}/users/me/avatar`, {
       method: 'PATCH',
       headers: {
@@ -85,8 +85,37 @@ class Api {
     })
     .then(this._handleResponse)
   }
-  // Постановка лайка
-  addLikeCard(id) {
+  // // Постановка лайка
+  // addLikeCard(id) {
+  //   return fetch(`${this._address}/cards/likes/${id}`, {
+  //     method: 'PUT',
+  //     headers: {
+  //       authorization: this._token
+  //     }
+  //   })
+  //   .then(this._handleResponse)
+  // }
+  // // Снятие лайка
+  // removeLikeCard(id) {
+  //   return fetch(`${this._address}/cards/likes/${id}`, {
+  //     method: 'DELETE',
+  //     headers: {
+  //       authorization: this._token
+  //     }
+  //   })
+  //   .then(this._handleResponse)
+  // }
+
+  changeLikeCardStatus(id, isLiked) {
+    if (isLiked) {
+      return fetch(`${this._address}/cards/likes/${id}`, {
+        method: 'DELETE',
+        headers: {
+          authorization: this._token
+        }
+      })
+      .then(this._handleResponse)
+    }
     return fetch(`${this._address}/cards/likes/${id}`, {
       method: 'PUT',
       headers: {
@@ -95,16 +124,7 @@ class Api {
     })
     .then(this._handleResponse)
   }
-  // Снятие лайка
-  removeLikeCard(id) {
-    return fetch(`${this._address}/cards/likes/${id}`, {
-      method: 'DELETE',
-      headers: {
-        authorization: this._token
-      }
-    })
-    .then(this._handleResponse)
-  }
+
 }
 
 export const api = new Api({
