@@ -2,7 +2,7 @@ class Api {
   constructor({address, token}) {
     this._address = address;
     this._token = token;
-}
+  }
 
   _handleResponse(res) {
     if (res.ok) {
@@ -21,6 +21,7 @@ class Api {
     })
     .then(this._handleResponse)
   }
+
   // Редактирование профиля
   setUserProfile(data) {
     return fetch(`${this._address}/users/me`, {
@@ -36,6 +37,7 @@ class Api {
     })
     .then(this._handleResponse)
   }
+
   // Обновление аватара пользователя
   setUserAvatar(data) {
     return fetch(`${this._address}/users/me/avatar`, {
@@ -50,6 +52,7 @@ class Api {
     })
     .then(this._handleResponse)
   }
+
   // Загрузка карточек с сервера
   getInitialCards() {
     return fetch(`${this._address}/cards`, {
@@ -60,6 +63,7 @@ class Api {
     })
     .then(this._handleResponse)
   }
+
   // Добавление новой карточки
   addNewCard(data) {
     return fetch(`${this._address}/cards`, {
@@ -75,6 +79,7 @@ class Api {
     })
     .then(this._handleResponse)
   }
+
   // Удаление карточки
   removeCard(id) {
     return fetch(`${this._address}/cards/${id}`, {
@@ -85,46 +90,25 @@ class Api {
     })
     .then(this._handleResponse)
   }
-  // // Постановка лайка
-  // addLikeCard(id) {
-  //   return fetch(`${this._address}/cards/likes/${id}`, {
-  //     method: 'PUT',
-  //     headers: {
-  //       authorization: this._token
-  //     }
-  //   })
-  //   .then(this._handleResponse)
-  // }
-  // // Снятие лайка
-  // removeLikeCard(id) {
-  //   return fetch(`${this._address}/cards/likes/${id}`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       authorization: this._token
-  //     }
-  //   })
-  //   .then(this._handleResponse)
-  // }
-
+  
+  // Постановка / снятие лайка
   changeLikeCardStatus(id, isLiked) {
-    if (isLiked) {
-      return fetch(`${this._address}/cards/likes/${id}`, {
-        method: 'DELETE',
-        headers: {
-          authorization: this._token
-        }
-      })
-      .then(this._handleResponse)
-    }
-    return fetch(`${this._address}/cards/likes/${id}`, {
-      method: 'PUT',
+    return fetch(`${this._address}/cards/likes/${id}`, 
+    isLiked ? {
+      method: 'DELETE',
       headers: {
         authorization: this._token
       }
-    })
+    }
+    : {
+        method: 'PUT',
+        headers: {
+          authorization: this._token
+        }
+      }
+    )
     .then(this._handleResponse)
   }
-
 }
 
 export const api = new Api({

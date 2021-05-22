@@ -1,12 +1,10 @@
 import React from 'react';
 import Card from '../components/Card'
 import { CurrentUserContext } from '../contexts/CurrentUserContext'
-import { CardsContext } from '../contexts/CardsContext'
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete }) {
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike, onCardDelete, cards }) {
   
   const currentUser = React.useContext(CurrentUserContext);
-  const cards = React.useContext(CardsContext);
 
   return (
     <div className="content">
@@ -24,7 +22,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
       </section>
         
       <section className="elements">
-        {cards.map((item) => (<Card key={item.id} card={item} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete} />))}
+        {cards.map((item) => (<Card key={item._id} card={item} onCardClick={onCardClick} onCardLike={onCardLike} onCardDelete={onCardDelete} />))}
       </section>
     </div>
   );
