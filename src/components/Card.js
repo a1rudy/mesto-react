@@ -28,7 +28,7 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   return (
     <article className="element">
       <div className="element__img-wrap">
-        <img className="element__image" src={card.link} alt={card.name} onClick={handleClick}/>
+        <img className="element__image" src={card.link} alt={`Это ${card.name}? Не похоже) Введите корректную ссылку.`} onClick={handleClick}/>
       </div>
       <button className={cardDeleteButtonClassName} onClick={handleDelete} type="button"></button>
       <div className="element__info">

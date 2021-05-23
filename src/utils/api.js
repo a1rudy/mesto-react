@@ -93,21 +93,13 @@ class Api {
   
   // Постановка / снятие лайка
   changeLikeCardStatus(id, isLiked) {
-    return fetch(`${this._address}/cards/likes/${id}`, 
-    isLiked ? {
-      method: 'DELETE',
+      return fetch(`${this._address}/cards/likes/${id}`, {
+      method: isLiked ? 'DELETE' : 'PUT',
       headers: {
         authorization: this._token
       }
-    }
-    : {
-        method: 'PUT',
-        headers: {
-          authorization: this._token
-        }
-      }
-    )
-    .then(this._handleResponse)
+    })
+  .then(this._handleResponse)
   }
 }
 

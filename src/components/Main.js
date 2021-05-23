@@ -11,7 +11,7 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, onCardLike
       <section className="profile">
         <div className="profile__avatar-wrap">
           <div className="profile__avatar-overlay" onClick={onEditAvatar}></div>
-          <img className="profile__avatar" src={currentUser.avatar} alt="Подождите, подгружается" />
+          <img className="profile__avatar" src={currentUser.avatar} alt={currentUser.name} />
         </div>
         <div className="profile__info">
           <button className="profile__edit-button" onClick={onEditProfile} type="button"></button>
