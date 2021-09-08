@@ -67,7 +67,6 @@ function App() {
   }
 
   function handleCardDeleteRequest(card) {
-    console.log(card)
     setDelPlacePopupOpen(true);
     setCardForDelete(card)
   }
@@ -95,7 +94,9 @@ function App() {
     setSelectedCard({});
   }
 
+  const [isUserSending, setIsUserSending] = React.useState(false);
   function handleUpdateUser(data) {
+    setIsUserSending(true);
     api.setUserProfile(data)
       .then((dataInfo) => {
         setCurrentUser(dataInfo);
@@ -103,31 +104,35 @@ function App() {
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => setIsUserSending(false));
   }
 
-  function handleUpdateAvatar(data, onSuccess) {
+  function handleUpdateAvatar(data) {
+    setIsUserSending(true);
     api.setUserAvatar(data)
       .then((dataAvatar) => {
         setCurrentUser(dataAvatar);
         closeAllPopups();
-        onSuccess();
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => setIsUserSending(false));
   }
 
-  function handleAddPlaceSubmit(data, onSuccess) {
+  const [isCardSending, setIsCardSending] = React.useState(false);
+  function handleAddPlaceSubmit(data) {
+    setIsCardSending(true);
     api.addNewCard(data)
       .then((newCard) => {
         setCards([newCard, ...cards]);
         closeAllPopups();
-        onSuccess();
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(() => setIsCardSending(false));
   }
 
   function handleCardLike(card) {
@@ -165,11 +170,11 @@ function App() {
 
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />
 
-          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} /> 
+          <EditAvatarPopup isOpen={isEditAvatarPopupOpen} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} isSending={isUserSending} /> 
 
-          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} /> 
+          <EditProfilePopup isOpen={isEditProfilePopupOpen} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} isSending={isUserSending} /> 
 
-          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
+          <AddPlacePopup isOpen={isAddPlacePopupOpen} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isSending={isCardSending} />
 
           <DelPlacePopup isOpen={isDelPlacePopupOpen} onClose={closeAllPopups} onDelPlace={handleCardDelete} />
 
